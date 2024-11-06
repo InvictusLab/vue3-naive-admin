@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -23,11 +24,24 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        'vue-i18n',
+        '@vueuse/core',
+        'pinia',
+        {
+          'naive-ui': [
+            'useDialog',
+            'useMessage',
+            'useNotification',
+            'useLoadingBar',
+          ],
+        },
       ],
+      dirs: ['src/stores', 'src/composables'],
       dts: 'src/dts/auto-imports.d.ts',
     }),
     Components({
-      dirs: ['src/components', 'src/views'],
+      resolvers: [NaiveUiResolver()],
+      dirs: ['src/components'],
       dts: 'src/dts/components.d.ts',
     }),
   ],
